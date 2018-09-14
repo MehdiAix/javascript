@@ -22,6 +22,8 @@ const getUsers = async function () {
 getUsers()
 
 
+
+
 const insertPost = async function (data) {//parametre data
     let response = await fetch('https://jsonplaceholder.typicode.com/posts',//en second paramètre je vais lui passer notre object
     // et notre méthode

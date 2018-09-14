@@ -22,34 +22,39 @@ var get = function (url, success, error) {
                 error(xhr)
             }
             //si sa marche je met que c'est terminé et je debug xhr (console.log('terminé',xhr))
-        }
-    }
+        }}
         // ensuite je peut faire ma requête
     // la méthode,l'url en paramètre,et asynchrone
     xhr.open('GET',url,true)
     //ensuite j'envoie ma requête
     xhr.send()
 }
-let getPosts = function () {
+let getPosts = function (success,error) {
     // en second parametre je vait lui mettre une fonction qui prendra en paramètre la response 
     get('https://jsonplaceholder.typicode.com/users', function (response) {
         //ensuite qui pourra faire un console log pour afficher la reponse (console.log(response))
         // j'enrengistre dans ma variable users un objet que j'ai parser('extrait de mon tableau au format son')
-        let users = JSON.parse(response);
+        let users = JSON.parse(response)
         // console.log(users[2]) en 1 ere paraametre je fait ma function de callback de reussite
         get('https://jsonplaceholder.typicode.com/comments?userId=' + users[0].id, function (response) {
             let posts = JSON.parse(response)
-            console.log(posts)
-            
-        },function (error) {
+            //si sa marche je fait appel a mon callback success
+            success(posts)
+            // console.log(posts)
+        },function (e) {
             //si on a un probleme je te place le callback error
-            console.log('erreur ajax',error)
-            
-        }  )
-    },function (error) {
+            error('erreur ajax ligne 46',e)
+        })
+    },function (e) {
         //je lui crée un parametre pour me crée les erreur
-        console.log('erreur ajax',error)
+        error('erreur ajax ligne 50',e)
     })
-};
-console.log(getPosts())
+}
+getPosts(function (posts) {
+    console.log('le premier article', posts[0])
+    //si jamais j'ai une erreur je prend la fonction error et je te l'affiche en console log
+    //sinon sa m'affiche le premier articles ;)
+},function (error) {
+    console.error(error)
+})
 
